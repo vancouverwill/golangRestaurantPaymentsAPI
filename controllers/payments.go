@@ -2,20 +2,17 @@ package controllers
 
 import (
 	"encoding/json"
-	//	"fmt"
 	"github.com/vancouverwill/restaurantPaymentsAPI/models"
-	//	"log"
-	"net/http"
-	//	"strconv"
 	"io"
 	"io/ioutil"
+	"net/http"
 )
 
 func PaymentsIndex(response http.ResponseWriter, request *http.Request) {
 
 }
 
-func PaymentsByRestaurant(response http.ResponseWriter, request *http.Request) {
+func PaymentsSearch(response http.ResponseWriter, request *http.Request) {
 
 }
 
@@ -23,11 +20,21 @@ func PaymentCreate(response http.ResponseWriter, request *http.Request) {
 	var payment models.Payment
 	payment = jsonToObject(response, request, payment)
 
-	Payment
+	if payment.IsValidRestaurantLocation() == false {
+		response.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		response.WriteHeader(http.StatusBadRequest)
+	}
+
+	if payment.IsValidCardType() == false {
+		response.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		response.WriteHeader(http.StatusBadRequest)
+	}
+
+	payment.SavePayment()
 
 	response.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	response.WriteHeader(http.StatusCreated)
-	if err := json.NewEncoder(response).Encode(transaction); err != nil {
+	if err := json.NewEncoder(response).Encode(payment); err != nil {
 		panic(err)
 	}
 }

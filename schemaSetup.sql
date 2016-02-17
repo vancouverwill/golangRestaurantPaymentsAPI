@@ -14,7 +14,9 @@ DROP TABLE IF EXISTS `payments`;
 CREATE TABLE `payments` (
 	`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	`amount` int(11) DEFAULT '0',
+	`tipAmount` int(11) DEFAULT '0',
 	`tableNo` int(11) DEFAULT '0',
+	`paymentReferenceId` int(11) DEFAULT '0',
 	`restaurantLocationId` int(11) DEFAULT '0',
 	`cardType` ENUM('visa', 'mastercard', 'americanExpress'),
 	`created`  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -22,6 +24,8 @@ CREATE TABLE `payments` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
+
+INSERT into payments (`amount`, `tipAmount`, `tableNo`, `paymentReferenceId`, `restaurantLocationId`, `cardType`) VALUES (50, 10, 100, 400, 12, "visa");
 
 DROP TABLE IF EXISTS `restaurantLocations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
